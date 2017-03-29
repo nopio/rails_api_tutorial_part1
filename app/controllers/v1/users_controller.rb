@@ -1,5 +1,6 @@
 module V1
   class UsersController < ApplicationController
+    before_action :authenticate_admin_request
     before_action :set_user, only: [:show, :destroy, :update]
 
     def index

@@ -1,8 +1,6 @@
 class ApplicationController < ActionController::API
   include ActionController::HttpAuthentication::Token::ControllerMethods
 
-  before_action :authenticate_request
-
   protected
 
   def pagination(records)
@@ -19,13 +17,27 @@ class ApplicationController < ActionController::API
     @user
   end
 
-  private
-
-  def authenticate_request
-    authenticate_with_token || render_unauthorized_request
+  def current_admin
+    @admin
   end
 
-  def authenticate_with_token
+  private
+
+  def authenticate_admin_request
+    authenticate_admin_with_token || render_unauthorized_request
+  end
+
+  def authenticate_user_request
+    authenticate_user_with_token || render_unauthorized_request
+  end
+
+  def authenticate_admin_with_token
+    authenticate_with_http_token do |token, options|
+      @admin = User.find_by(api_key: token, admin: true)
+    end
+  end
+
+  def authenticate_user_with_token
     authenticate_with_http_token do |token, options|
       @user = User.find_by(api_key: token)
     end

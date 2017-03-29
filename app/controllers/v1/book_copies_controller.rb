@@ -1,5 +1,6 @@
 module V1
   class BookCopiesController < ApplicationController
+    before_action :authenticate_admin_request
     before_action :set_book_copy, only: [:show, :destroy, :update]
 
     def index
