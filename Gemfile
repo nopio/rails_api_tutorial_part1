@@ -10,6 +10,7 @@ gem 'pg', '~> 0.18'
 gem 'puma', '~> 3.0'
 gem 'active_model_serializers', '~> 0.10.0'
 gem 'rack-cors'
+gem 'rack-attack'
 gem 'will_paginate'
 
 group :development, :test do
