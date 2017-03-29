@@ -1,6 +1,8 @@
 class ApplicationController < ActionController::API
   include ActionController::HttpAuthentication::Token::ControllerMethods
 
+  rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
+
   protected
 
   def pagination(records)
@@ -46,5 +48,9 @@ class ApplicationController < ActionController::API
   def render_unauthorized_request
     self.headers['WWW-Authenticate'] = 'Token realm="Application"'
     render json: { error: 'Bad credentials' }, status: 401
+  end
+
+  def record_not_found
+    render json: { error: 'Record not found' }, status: 404
   end
 end
