@@ -1,6 +1,6 @@
 module V1
   class AuthorsController < ApplicationController
-    before_action :authenticate_admin_request
+    before_action :authenticate_admin
     before_action :set_author, only: [:show, :destroy, :update]
 
     def index
