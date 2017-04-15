@@ -1,6 +1,6 @@
 module V1
   class BookCopiesController < ApplicationController
-    before_action :authenticate_admin, except: [:return_book, :borrow]
+    skip_before_action :authenticate_admin, only: [:return_book, :borrow]
     before_action :authenticate, only: [:return_book, :borrow]
     before_action :current_user_presence, only: [:return_book, :borrow]
     before_action :set_book_copy, only: [:show, :destroy, :update, :borrow, :return_book]

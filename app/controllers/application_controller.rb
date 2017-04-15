@@ -5,6 +5,8 @@ class ApplicationController < ActionController::API
   rescue_from ActiveRecord::RecordNotFound, with: :not_found
   rescue_from Pundit::NotAuthorizedError, with: :not_authorized
 
+  before_action :authenticate_admin
+
   protected
 
   def pagination(records)
@@ -63,20 +65,20 @@ class ApplicationController < ActionController::API
 
   def current_user_presence
     unless current_user
-      render json: { error: 'Missing a user' }, status: 422
+      render json: { error: 'Missing a user param.' }, status: 422
     end
   end
 
   def render_unauthorized_request
     self.headers['WWW-Authenticate'] = 'Token realm="Application"'
-    render json: { error: 'Bad credentials' }, status: 401
+    render json: { error: 'Bad credentials.' }, status: 401
   end
 
   def not_found
-    render json: { error: 'Record not found' }, status: 404
+    render json: { error: 'Record not found.' }, status: 404
   end
 
   def not_authorized
-    render json: { error: 'Unauthorized' }, status: 403
+    render json: { error: 'Unauthorized.' }, status: 403
   end
 end

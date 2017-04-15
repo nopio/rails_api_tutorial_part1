@@ -1,6 +1,5 @@
 module V1
   class BooksController < ApplicationController
-    before_action :authenticate_admin
     before_action :set_book, only: [:show, :destroy, :update]
 
     def index
